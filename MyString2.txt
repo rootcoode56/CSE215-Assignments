@@ -1,0 +1,66 @@
+public class MyString {
+    private char[] data;
+
+    public MyString(String s) {
+        data = s.toCharArray();
+    }
+
+    public int length() {
+        return data.length;
+    }
+
+    public char charAt(int i) {
+        if (i < 0 || i >= data.length) {
+            System.out.println("Index out of bounds");
+            return '\0'; // Return a default value
+        }
+        return data[i];
+    }
+
+    public MyString concat(MyString s) {
+        char[] newData = new char[data.length + s.length()];
+        System.arraycopy(data, 0, newData, 0, data.length);
+        System.arraycopy(s.data, 0, newData, data.length, s.length());
+        return new MyString(new String(newData));
+    }
+
+    public int compareTo(MyString s) {
+        int minLength = Math.min(data.length, s.length());
+        
+        for (int i = 0; i < minLength; i++) {
+            if (data[i] != s.charAt(i)) {
+                return data[i] - s.charAt(i);
+            }
+        }
+        
+        return data.length - s.length();
+    }
+
+    public boolean equals(MyString s) {
+        return compareTo(s) == 0;
+    }
+
+    public boolean isEmpty() {
+        return data.length == 0;
+    }
+
+    public static void main(String[] args) {
+        MyString str1 = new MyString("Hello");
+        MyString str2 = new MyString("World");
+        
+        System.out.println("Length of str1: " + str1.length());
+        System.out.println("Character at index 2 of str1: " + str1.charAt(2));
+        
+        MyString concatenated = str1.concat(str2);
+        System.out.println("Concatenated string: " + concatenated);
+        
+        int compareToResult = str1.compareTo(str2);
+        System.out.println("CompareTo result: " + compareToResult);
+        
+        boolean equalsResult = str1.equals(str2);
+        System.out.println("Equals result: " + equalsResult);
+        
+        boolean isEmptyResult = str1.isEmpty();
+        System.out.println("Is str1 empty? " + isEmptyResult);
+    }
+}
